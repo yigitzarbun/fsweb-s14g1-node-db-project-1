@@ -49,11 +49,11 @@ npm run resetdb
 
 - Aşağıdaki db erişim fonksiyonlarını Knex kullanarak `api/accounts/accounts-model.js` içine yazın:
 
-  - `getAll`, bir hesap dizisine (veya boş bir diziye) çözümlenir
-  - `getById` verilen kimliğe göre bir hesaba çözümlenir
-  - `create`, yeni oluşturulan hesaba çözümlenir
-  - `updateById`, güncellenen hesaba çözümlenir
-  - `deleteById` silinen hesabı çözer
+  - `getAll`, bir hesap dizisini (veya boş bir diziyi) döner
+  - `getById` verilen kimliğe göre bir hesabı döner
+  - `create`, yeni oluşturulan hesabı! döner
+  - `updateById`, güncellenen hesabı! döner
+  - `deleteById` silinen hesabı! döner
 
 - İşte Knex ile SQLite ile çalışmak için bazı kopyalar :):
 
@@ -88,7 +88,7 @@ db('foo-table').where('id', id).delete() // silme işleminden etkilenen **kayıt
     - Bütçe bir sayıya dönüştürülemiyorsa, `{ message: "budget of account must be a number" }` döndürün
     - Bütçe negatif bir sayıysa veya bir milyonun üzerindeyse, `{ message: "budget of account is too large or too small" }` döndürün
 
-  - `checkAccountId`, veritabanında `req.params.id` yoksa `{ message: "that name is taken" }` ile bir durum 404 döndürün
+  - `checkAccountId`, veritabanında `req.params.id` yoksa `{ message: "account not found" }` ile bir durum 404 döndürün
 
   - _trimmed_ `req.body.name` zaten veritabanında mevcutsa, `checkAccountNameUnique`, `{ message: "that name is taken" }` ile bir durum 400 döndürün
 
