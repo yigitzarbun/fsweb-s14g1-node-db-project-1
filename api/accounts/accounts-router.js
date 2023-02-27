@@ -20,7 +20,7 @@ router.get("/:id", md.checkAccountId, (req, res, next) => {
 router.post("/", md.checkAccountPayload, async (req, res, next) => {
   // KODLAR BURAYA
   try {
-    let { name, budget } = req;
+    let { name, budget } = req.body;
     let account = {
       name: name,
       budget: budget,
@@ -41,8 +41,8 @@ router.put(
     // KODLAR BURAYA
     try {
       let updatedAccount = await accounts.updateById(req.params.id, {
-        name: req.name,
-        budget: req.budget,
+        name: req.body.name,
+        budget: req.body.budget,
       });
 
       res.json(updatedAccount);

@@ -13,18 +13,18 @@ const getById = (id) => {
 };
 
 //ÇALIŞMIYOR
-const create = (account) => {
+const create = async (account) => {
   // KODLAR BURAYA
-  const newAccountIdArray = db("accounts").insert({
+  const newAccountIdArray = await db("accounts").insert({
     name: account.name,
     budget: account.budget,
   });
   const newAccountId = newAccountIdArray[0];
-  const createdAccount = db("accounts").where("id", newAccountId).first();
+  const createdAccount = await db("accounts").where("id", newAccountId).first();
   return createdAccount;
 };
 
-const updateById = (id, account) => {
+const updateById = async (id, account) => {
   // KODLAR BURAYA
   return db("accounts")
     .where("id", id)

@@ -1,15 +1,13 @@
 const accounts = require("./accounts-model");
 
-exports.checkAccountPayload = async (req, res, next) => {
+exports.checkAccountPayload = (req, res, next) => {
   // KODLAR BURAYA
   // Not: Validasyon için Yup(şu an yüklü değil!) kullanabilirsiniz veya kendiniz manuel yazabilirsiniz.
   let { name, budget } = req.body;
   try {
-    if (name == null || body == null) {
+    if (!name || !budget) {
       res.status(400).json({ message: "name and budget are required" });
     } else {
-      req.name = name;
-      req.budget = budget;
       next();
     }
   } catch (error) {
