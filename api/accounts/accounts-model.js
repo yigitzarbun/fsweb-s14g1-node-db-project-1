@@ -12,7 +12,6 @@ const getById = (id) => {
   return account;
 };
 
-//ÇALIŞMIYOR
 const create = async (account) => {
   // KODLAR BURAYA
   const newAccountIdArray = await db("accounts").insert({

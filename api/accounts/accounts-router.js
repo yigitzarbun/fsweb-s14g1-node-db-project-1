@@ -11,28 +11,32 @@ router.get("/", (req, res, next) => {
     .catch((err) => res.status(500).json({ message: "hata oluştu" }));
 });
 
-router.get("/:id", md.checkAccountId, (req, res, next) => {
+router.get("/:id", md.checkAccountId, async (req, res, next) => {
   // KODLAR BURAYA
-  res.status(200).json(req.account);
+  const account = await accounts.getById(req.params.id);
+  res.status(200).json(account);
 });
 
-//ÇALIŞMIYOR
-router.post("/", md.checkAccountPayload, async (req, res, next) => {
-  // KODLAR BURAYA
-  try {
-    let { name, budget } = req.body;
-    let account = {
-      name: name,
-      budget: budget,
-    };
-    let createdAccount = await accounts.create(account);
-    res.json(createdAccount);
-  } catch (error) {
-    next(error);
+router.post(
+  "/",
+  md.checkAccountPayload,
+  md.checkAccountNameUnique,
+  async (req, res, next) => {
+    // KODLAR BURAYA
+    try {
+      // let { name, budget } = req.account;
+      let account = {
+        name: req.body.name,
+        budget: req.body.budget,
+      };
+      let createdAccount = await accounts.create(account);
+      res.status(201).json(createdAccount);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-// MD CHECKACCOUNTPAYLOAD ÇALIŞMIYOR. ÇIKARINCA ÇALIŞIYOR
 router.put(
   "/:id",
   md.checkAccountId,
@@ -65,6 +69,10 @@ router.delete("/:id", md.checkAccountId, async (req, res, next) => {
 router.use((err, req, res, next) => {
   // eslint-disable-line
   // KODLAR BURAYA
+  res.status(err.status || 400).json({
+    customMessage: "bir hata oluştu",
+    message: err.message,
+  });
 });
 
 module.exports = router;
