@@ -16,6 +16,7 @@ router.get("/:id", md.checkAccountId, (req, res, next) => {
   res.status(200).json(req.account);
 });
 
+//ÇALIŞMIYOR
 router.post("/", md.checkAccountPayload, async (req, res, next) => {
   // KODLAR BURAYA
   try {
@@ -24,19 +25,41 @@ router.post("/", md.checkAccountPayload, async (req, res, next) => {
       name: name,
       budget: budget,
     };
-    let createdAccount = accounts.create(account);
+    let createdAccount = await accounts.create(account);
     res.json(createdAccount);
   } catch (error) {
     next(error);
   }
 });
 
-router.put("/:id", (req, res, next) => {
-  // KODLAR BURAYA
-});
+// MD CHECKACCOUNTPAYLOAD ÇALIŞMIYOR. ÇIKARINCA ÇALIŞIYOR
+router.put(
+  "/:id",
+  md.checkAccountId,
+  md.checkAccountPayload,
+  async (req, res, next) => {
+    // KODLAR BURAYA
+    try {
+      let updatedAccount = await accounts.updateById(req.params.id, {
+        name: req.name,
+        budget: req.budget,
+      });
 
-router.delete("/:id", (req, res, next) => {
+      res.json(updatedAccount);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete("/:id", md.checkAccountId, async (req, res, next) => {
   // KODLAR BURAYA
+  try {
+    const deletedAccount = await accounts.deleteById(req.params.id);
+    res.status(200).json(req.account);
+  } catch (error) {
+    res.json(error);
+  }
 });
 
 router.use((err, req, res, next) => {

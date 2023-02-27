@@ -1,20 +1,24 @@
 const accounts = require("./accounts-model");
 
-exports.checkAccountPayload = (req, res, next) => {
+exports.checkAccountPayload = async (req, res, next) => {
   // KODLAR BURAYA
   // Not: Validasyon için Yup(şu an yüklü değil!) kullanabilirsiniz veya kendiniz manuel yazabilirsiniz.
+  let { name, budget } = req.body;
+  try {
+    if (name == null || body == null) {
+      res.status(400).json({ message: "name and budget are required" });
+    } else {
+      req.name = name;
+      req.budget = budget;
+      next();
+    }
+  } catch (error) {
+    res.status(500).json({ message: " checkAccountPayload hata oluştu" });
+  }
 };
 
 exports.checkAccountNameUnique = (req, res, next) => {
   // KODLAR BURAYA
-  let { name, budget } = req.body;
-  if (name && body) {
-    req.name = name;
-    req.budget = budget;
-  } else {
-    res.status(400).json({ message: "name and budget are required" });
-  }
-  next();
 };
 
 exports.checkAccountId = async (req, res, next) => {
